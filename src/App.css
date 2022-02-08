@@ -1,38 +1,86 @@
+html{
+  /* background-image: url('images/queen.png');
+  background-size: 100%; */
+  background-color:green;
+  
+  	/*prevent text highlights*/
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#subtitle{
+  margin: 1vh auto;
+  font-size: 120%;
+  width: 50%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+footer li{
+  display: inline-block;
+  margin: 0 1vw;
+}
+footer ul{
+  margin: 0;
+  list-style-type: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+table#options{ 
+  /* background-color:red; */
+  border: 1px solid black;
+  /* height: 100%; */
+  width: 50%;
+  table-layout: fixed;
+ }
+
+#options td{
+  /* word-wrap: break-word; */
+  height: 100%;
+  /* width: 100%; */
 }
 
-.App-link {
-  color: #61dafb;
+caption{
+  text-align: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+table{
+  /* Centers table */
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.light{
+  background-color:white;
+  /* background-image: url('./images/queen.png');
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+.dark{
+  background-color:black;
+  /* background-image: url('images/queen.png');
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+
+.chosen{
+  background-image: url('images/queen.png');
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+td{
+  height: 5vh;
+  width: 5vw;
 }
