@@ -1,4 +1,4 @@
-const Options = ({ n, updateN, run, popSize, updatePopSize}) => {
+const Options = ({ n, updateN, run, popSize, updatePopSize }) => {
 
     // var initLabel = []
     // for (let i = 0; i < n; i++) {
@@ -67,7 +67,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize}) => {
                 <td>
                     Population Size
                 </td>
-                <td><input type='text' placeholder={popSize} size='1' id='popSize' onChange={() => {updatePopSize(document.getElementById('popSize').value)}}></input></td>
+                <td><input type='text' placeholder={popSize} size='1' id='popSize' onChange={() => { updatePopSize(document.getElementById('popSize').value) }}></input></td>
             </tr>
             <tr>
                 <td>
@@ -79,7 +79,12 @@ const Options = ({ n, updateN, run, popSize, updatePopSize}) => {
                 <td>
                     Initialization
                 </td>
-                <td>Smart (avoids horizontal and vertical collisions)</td>
+                <td>Smart Random(avoids horizontal and vertical collisions)</td>
+            </tr>
+
+            <tr>
+                <td>Termination Condition</td>
+                <td>10,000 Iterations</td>
             </tr>
             <tr>
                 <td colSpan='2'>

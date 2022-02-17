@@ -4,203 +4,313 @@ import Header from './components/Header'
 import Options from './components/Options'
 import Footer from './components/Footer'
 import { useState } from 'react'
-// var ss = require("./solution.js")
-// var population = new ss.population("2")
-// import population from './solution.js'
+
 
 class candidate {
-  constructor(permutation, score) {
-      this.permutation = permutation
-      this.score = score
-  }
-  setScore(score) {
-      this.score = score
-  }
+    constructor(permutation) {
+        this.permutation = permutation
+        this.calculateScore()
+    }
+    calculateScore() {
+
+        // step 1b: evaluate fitness
+        //should only need to check for diagonal conflicts
+
+        let penalty = 0
+
+        for (let j = 0; j < this.permutation.length; j++) {
+            let individualPenalty = 0
+            //check diagonal up-left
+            for (let a = j - 1, b = this.permutation[j] + 1; a >= 0 && b <= this.permutation.length; a--, b++) {
+                if (this.permutation[a] === b) {
+                    individualPenalty += 1
+                    // console.log('collision(up-left)', String.fromCharCode(a + 65), b)
+                }
+            }
+            //check diagonal up-right
+            for (let a = j + 1, b = this.permutation[j] + 1; a < this.permutation.length && b <= this.permutation.length; a++, b++) {
+                if (this.permutation[a] === b) {
+                    individualPenalty += 1
+                    // console.log('collision(up-right)', String.fromCharCode(a + 65), b)
+                }
+            }
+
+            //check diagonal down-right
+            for (let a = j + 1, b = this.permutation[j] - 1; a < this.permutation.length && b >= 1; a++, b--) {
+                if (this.permutation[a] === b) {
+                    individualPenalty += 1
+                    // console.log('collision(down-right)', String.fromCharCode(a + 65), b)
+                }
+            }
+
+            //check diagonal down-left
+            for (let a = j - 1, b = this.permutation[j] - 1; a >= 0 && b >= 1; a--, b--) {
+                if (this.permutation[a] === b) {
+                    individualPenalty += 1
+                    // console.log('collision(down-left)', String.fromCharCode(a + 65), b)
+                }
+            }
+            // console.log('column', String.fromCharCode(j + 65), 'individualPenalty', individualPenalty)
+            penalty += individualPenalty
+        }
+        // console.log('penalty', penalty)
+        //worst possible penalty would be n*(n-1): n-1 collisions per queen and n queens
+        this.score = (this.permutation.length * (this.permutation.length - 1)) - penalty
+
+    }
 }
 
 class population {
-  constructor(size, n) {
-      this.size = size
-      this.n = n
-      this.candidates = new Array(this.size)
-      // console.log('size',size)
-      // console.log('candidates.length',this.candidates.length)
-      this.possiblePositions = new Array(this.n)
-      // this.fitnessScore = new Array(this.size)
-  }
-  run() {
-      // let defaultPopSize = 1
-      // step 1: initilization - generate and evaluate population
+    constructor(size, n) {
+        this.size = size //population size
+        this.n = n //number of queens
+        this.candidates = new Array(this.size)
+        this.possiblePositions = new Array(this.n)
+    }
+    run(iterations) {
+        // let defaultPopSize = 1
+        // step 1: initilization - generate and evaluate population
+        this.initialize();
 
-      // step 1a: generate population
-      // array to hold all candidate solutions: our population
-      // var population = new Array(this.size)
+        for (let i = 0; i < iterations; i++) {
+            let offspring = this.tournamentSelection();
+            // console.log("offspring",offspring)
+            this.survivorSelection(offspring);
+        }
 
-      // array to hold possible row positions for generation
-      // let possiblePositions = new Array(n)
-      for (let j = 0; j < this.n; j++) {
-          this.possiblePositions[j] = j + 1;
-      }
+        console.log("final candidates",this.candidates)
 
-      // console.log('possPositions', possiblePositions.length, possiblePositions)
+    }
+    initialize() {
+        // step 1a: generate first population
 
-      //generation of all candidates
-      for (let i = 0; i < this.candidates.length; i++) {
-          let perm = new Array(this.n)
+        for (let j = 0; j < this.n; j++) {
+            this.possiblePositions[j] = j + 1;
+        }
 
-          //copy of possiblePositions so pop() can be performed
-          let deck = [...this.possiblePositions]
-          // console.log(deck)
+        //generation of all candidates
+        for (let i = 0; i < this.candidates.length; i++) {
+            let perm = new Array(this.n)
 
-          for (let j = 0; deck.length > 0; j++) {
-              //randomly choose element from stack/deck
-              let position = Math.floor(Math.random() * deck.length)
+            //copy of possiblePositions so pop() can be performed
+            let deck = [...this.possiblePositions]
+            // console.log(deck)
 
-              //swap selected element with last
-              let tmp = deck[deck.length - 1]
-              deck[deck.length - 1] = deck[position]
-              deck[position] = tmp
+            for (let j = 0; deck.length > 0; j++) {
+                //randomly choose element from stack/deck
+                let position = Math.floor(Math.random() * deck.length)
 
-              //pop last item from stack onto candidate solution
+                //swap selected element with last
+                let tmp = deck[deck.length - 1]
+                deck[deck.length - 1] = deck[position]
+                deck[position] = tmp
 
-              // console.log('deck', deck)
-              // console.log('candidateSolution', candidateSolution)
+                //pop last item from stack onto candidate solution
 
-              perm[j] = deck.pop()
+                // console.log('deck', deck)
+                // console.log('candidateSolution', candidateSolution)
 
-          }
-          // console.log(candidateSolution)
-          // console.log('loop')
-          this.candidates[i] = new candidate(perm, 0)
-          // console.log(this.candidates[i])
-      }
+                perm[j] = deck.pop()
 
-      // step 1b: evaluate fitness
-      //only need to check for diagonal conflicts
+            }
+            // console.log(candidateSolution)
+            this.candidates[i] = new candidate(perm)
+            // console.log(this.candidates[i])
+        }
+
+    }
+    tournamentSelection() {
+        //tournament selection: best 2 out of 5
+        // randomly select 5 candidates, identify best 2 and cross-over to create offspring
+        let offspring = [...this.candidates]
+        for (let j = 0; j < this.candidates.length / 2; j++) {
+            const parentCandidates = []
+
+            for (let i = 0; i < 5; i++) {
+                parentCandidates[i] = this.candidates[Math.floor(Math.random() * this.candidates.length)]
+            }
+            //sort the randomly chosen parentCandidates by score: descending
+            parentCandidates.sort((a, b) => {
+                return b.score - a.score;
+            })
+
+            //debug: show chosen parentCandidates in console
+            // for (let i = 0; i < 5; i++) {
+            //     console.log(parentCandidates[i]);
+            // }
+
+            //recombination
+            // take top two and use "cut-and-crossfill" crossover method
+            //randomly choose index between 1 and length-2
+            let cut = Math.floor(Math.random() * (parentCandidates[0].permutation.length - 1 - 2) + 1)
+
+            //debug: flag cut index out-of-range
+            // if(cut < 1 || cut > parentCandidates[0].permutation.length - 1) console.log("cut index out of range!",cut);
+            //debug: show cut index selection
+            // console.log("cut", cut);
+
+            //offspring 1 recombination
+            let k = cut;
+            let offspringPerm0 = [...parentCandidates[0].permutation]
+            for (let i = cut; i < parentCandidates[1].permutation.length; i++) {
+                let val = parentCandidates[1].permutation[i];
+                let skip = false
+                //search for value in pre-cut section
+                for (let m = 0; m < cut; m++) {
+                    if (parentCandidates[0].permutation[m] === val) {
+                        skip = true
+                        break;
+                    }
+                }
+                if (!skip) offspringPerm0[k++] = val;
+            }
+            for (let i = 0; k < parentCandidates[1].permutation.length; i++) {
+                let val = parentCandidates[1].permutation[i];
+                let skip = false
+                for (let m = 0; m < cut; m++) {
+                    if (parentCandidates[0].permutation[m] === val) {
+                        skip = true
+                        break;
+                    }
+                }
+                if (!skip) offspringPerm0[k++] = val;
+            }
+            //debug
+            // console.log("offspringPerm0", offspringPerm0)
+
+            //offspring 2 recombination
+            k = cut;
+            let offspringPerm1 = [...parentCandidates[1].permutation]
+            for (let i = cut; i < parentCandidates[0].permutation.length; i++) {
+                let val = parentCandidates[0].permutation[i];
+                let skip = false;
+                //search for value in pre cut section
+                for (let m = 0; m < cut; m++) {
+                    if (parentCandidates[1].permutation[m] === val) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (!skip) offspringPerm1[k++] = val;
+            }
+            for (let i = 0; k < parentCandidates[0].permutation.length; i++) {
+                let val = parentCandidates[0].permutation[i];
+                let skip = false
+                for (let m = 0; m < cut; m++) {
+                    if (parentCandidates[1].permutation[m] === val) {
+                        skip = true
+                        break;
+                    }
+                }
+                if (!skip) offspringPerm1[k++] = val;
+            }
+            //debug
+            // console.log("offspringPerm1", offspringPerm1)
 
 
-      // var fitnessScore = new Array(defaultPopSize)
+            //mutation of first offspring
+            //80% probability to occur
+            if (Math.random() <= 0.8) {
+                //randomly swap two values of the permutation
+                let indexA = Math.floor(Math.random() * offspringPerm0.length);
+                let indexB = Math.floor(Math.random() * offspringPerm0.length);
+                //reroll until A and B are two different indexes
+                while (indexA === indexB) indexB = Math.floor(Math.random() * offspringPerm0.length);
+
+                //swap values
+                let tmp = offspringPerm0[indexA];
+                offspringPerm0[indexA] = offspringPerm0[indexB];
+                offspringPerm0[indexB] = tmp;
+
+                //debug
+                // console.log("mutation offspringPerm0", offspringPerm0)
+            }
 
 
-      for (let i = 0; i < this.candidates.length; i++) {
-          //make copy
-          let perm = [...this.candidates[i].permutation]
-          console.log('perm', perm)
-          //check four directions for each queen
-          //stop at boundaries
-          //count collisions and assign sum to fitnessScore array
+            //mutation of second offspring
+            //80% probability to occur
+            if (Math.random() <= 0.8) {
+                //randomly swap two values of the permutation
+                let indexA = Math.floor(Math.random() * offspringPerm1.length);
+                let indexB = Math.floor(Math.random() * offspringPerm1.length);
+                //reroll until A and B are two different indexes
+                while (indexA === indexB) indexB = Math.floor(Math.random() * offspringPerm1.length);
 
-          let penalty = 0
+                //swap values
+                let tmp = offspringPerm1[indexA];
+                offspringPerm1[indexA] = offspringPerm1[indexB];
+                offspringPerm1[indexB] = tmp;
 
-          for (let j = 0; j < perm.length; j++) {
-              let individualPenalty = 0
-              //check diagonal up-left
-              for (let a = j - 1, b = perm[j] + 1; a >= 0 && b <= this.n; a--, b++) {
-                  if (perm[a] === b) {
-                      individualPenalty += 1
-                      console.log('collision(up-left)', String.fromCharCode(a + 65), b)
-                  }
-              }
-              //check diagonal up-right
-              for (let a = j + 1, b = perm[j] + 1; a < this.n && b <= this.n; a++, b++) {
-                  if (perm[a] === b) {
-                      individualPenalty += 1
-                      console.log('collision(up-right)', String.fromCharCode(a + 65), b)
-                  }
-              }
+                //debug
+                // console.log("mutation offspringPerm1", offspringPerm1)
+            }
 
-              //check diagonal down-right
-              for (let a = j + 1, b = perm[j] - 1; a < this.n && b >= 1; a++, b--) {
-                  if (perm[a] === b) {
-                      individualPenalty += 1
-                      console.log('collision(down-right)', String.fromCharCode(a + 65), b)
-                  }
-              }
+            offspring.push(new candidate(offspringPerm0))
+            offspring.push(new candidate(offspringPerm1))
+        }
 
-              //check diagonal down-left
-              for (let a = j - 1, b = perm[j] - 1; a >= 0 && b >= 1; a--, b--) {
-                  if (perm[a] === b) {
-                      individualPenalty += 1
-                      console.log('collision(down-left)', String.fromCharCode(a + 65), b)
-                  }
-              }
-              console.log('column', String.fromCharCode(j + 65), 'individualPenalty', individualPenalty)
-              penalty += individualPenalty
-          }
-          console.log('penalty', penalty)
-          //worst possible penalty would be n*(n-1): n-1 collisions per queen and n queens
-          // this.fitnessScore[i] = (this.n*(this.n-1)) - penalty
-          this.candidates[i].score = (this.n * (this.n - 1)) - penalty
-          // console.log('fitnessScore[' + i + ']', this.fitnessScore[i])
-          console.log('candidates[' + i + '].score', this.candidates[i].score)
-      }
+        return offspring
+        //debug
+        // console.log("offspring length",offspring.length)
 
-      //tournament selection: best 2 out of 5
-      // randomly select 5 candidates, identify best 2
-      // Math.floor(Math.random * this.candidates.length)
-      // let parents = []
-      // for(let i = 0;i<this.fitnessScore.length;i+=5){
-      //   let tournament = this.fitnessScore.slice(i,i+5)
-      //   // let alpha = {score:-1, index:-1}
-      //   let maxIndex = 0
-      //   for(let j=1;j<tournament.length;j++){
-      //     if(tournament[j] > tournament[maxIndex]){
-      //       maxIndex = j
-      //       // alpha.score = tournament[j]
-      //       // alpha.index = j
-      //     }
-      //   }
-      //   // swap max index with last and pop from array
-      //   let tmp = tournament[maxIndex]
-      //   tournament[maxIndex] = tournament[tournament.length-1]
-      //   tournament.pop()
-      // }
-  }
+    }
+    survivorSelection(offspring) {
+        //survivor selection
+        //sort new population (previous and offspring)
+        offspring.sort((a, b) => {
+            return b.score - a.score;
+        })
+
+        // console.log("new population",offspring)
+        this.candidates = offspring.splice(0, 100);
+    }
 }
 
 function App() {
 
-  // default n
-  var defaultN = 8
+    // default n
+    var defaultN = 8
 
-  const [n, setN] = useState(defaultN)
+    var iterations = 10000
 
-  var queensArr = new Array(defaultN)
-  const [queens, setQueens] = useState(queensArr)
+    const [n, setN] = useState(defaultN)
 
-  const [popSize, setPopSize] = useState(100)
+    var queensArr = new Array(defaultN)
+    const [queens, setQueens] = useState(queensArr)
 
-  const updateN = (n) => {
-    // Catches empty text string
-    if (n === "") return
+    const [popSize, setPopSize] = useState(100)
 
-    // console.log(n)
-    setN(n)
-    setQueens(new Array(n))
-  }
+    const updateN = (n) => {
+        // Catches empty text string
+        if (n === "") return
 
-  const updatePopSize = (popSize) =>{
-    if(popSize==="") return
+        // console.log(n)
+        setN(n)
+        setQueens(new Array(n))
+    }
 
-    // console.log(popSize)
-    setPopSize(popSize)
-  }
+    const updatePopSize = (popSize) => {
+        if (popSize === "") return
 
-  const run = () => {
-    console.log('run','popSize',popSize)
+        // console.log(popSize)
+        setPopSize(popSize)
+    }
 
-    let experiment = new population(popSize, n)
-    experiment.run()
-  }
+    const run = () => {
+        console.log('run', 'popSize', popSize)
 
-  return (
-    <div className="App">
-      <Header />
-      <Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize}/>
-      <Board size={n} />
-      <Footer />
-    </div>
-  )
+        let experiment = new population(popSize, n)
+        experiment.run(iterations)
+    }
+
+    return (
+        <div className="App">
+            <Header />
+            <Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} />
+            <Board size={n} />
+            <Footer />
+        </div>
+    )
 }
 
 export default App;
