@@ -79,7 +79,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize }) => {
                 <td>
                     Initialization
                 </td>
-                <td>Smart Random(avoids horizontal and vertical collisions)</td>
+                <td>Smart Random (avoids horizontal and vertical collisions)</td>
             </tr>
 
             <tr>
