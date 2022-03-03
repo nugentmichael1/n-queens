@@ -4,7 +4,7 @@ import Header from './components/Header'
 import Options from './components/Options'
 import Footer from './components/Footer'
 import { useState } from 'react'
-import {candiate, population} from './EvolutionaryAlgorithm'
+import { population } from './EvolutionaryAlgorithm'
 
 
 function App() {
