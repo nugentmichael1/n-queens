@@ -1,4 +1,4 @@
-const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb}) => {
+const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, termCond, setTermCond }) => {
 
     return <table id='options'>
         <caption>Options</caption>
@@ -42,7 +42,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                 <td>
                     Mutation Probability
                 </td>
-                <td><input type="range" min="0" max="100" value={mutationProb} id="mutationProb" onInput={ () => {setMutationProb(document.getElementById("mutationProb").value)}}/>{mutationProb}%</td>
+                <td><input type="range" min="0" max="100" value={mutationProb} id="mutationProb" onInput={() => { setMutationProb(Number(document.getElementById("mutationProb").value)) }} />{mutationProb}%</td>
             </tr>
             <tr>
                 <td>
@@ -60,7 +60,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                 <td>
                     Population Size
                 </td>
-                <td><input type='text' placeholder={popSize} size='1' id='popSize' onChange={() => { updatePopSize(document.getElementById('popSize').value) }}></input></td>
+                <td><input type='text' placeholder={popSize} size='1' id='popSize' onChange={() => { updatePopSize(Number(document.getElementById('popSize').value)) }}></input></td>
             </tr>
             <tr>
                 <td>
@@ -77,7 +77,10 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
 
             <tr>
                 <td>Termination Condition</td>
-                <td>10,000 Iterations</td>
+                <td>
+                    <input type="range" min="100" max="10000" value={termCond} id="termCond" onInput={() => { setTermCond(Number(document.getElementById("termCond").value)) }}></input>
+                    {termCond.toLocaleString("en-US")} Iterations
+                </td>
             </tr>
             <tr>
                 <td colSpan='2'>
