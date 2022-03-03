@@ -1,11 +1,4 @@
-const Options = ({ n, updateN, run, popSize, updatePopSize }) => {
-
-    // var initLabel = []
-    // for (let i = 0; i < n; i++) {
-    //     var label = String.fromCharCode(65 + i)
-    //     initLabel.push(<td>{label}</td>)
-    // }
-    // var init = []
+const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb}) => {
 
     return <table id='options'>
         <caption>Options</caption>
@@ -49,7 +42,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize }) => {
                 <td>
                     Mutation Probability
                 </td>
-                <td>80%</td>
+                <td><input type="range" min="0" max="100" value={mutationProb} id="mutationProb" onInput={ () => {setMutationProb(document.getElementById("mutationProb").value)}}/>{mutationProb}%</td>
             </tr>
             <tr>
                 <td>

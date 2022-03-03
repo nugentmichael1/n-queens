@@ -21,6 +21,8 @@ function App() {
 
     const [popSize, setPopSize] = useState(100)
 
+    const [mutationProb, setMutationProb] = useState(80)
+
     const updateN = (n) => {
         // Catches empty text string
         if (n === "") return
@@ -36,18 +38,18 @@ function App() {
         // console.log(popSize)
         setPopSize(popSize)
     }
-
+    
     const run = () => {
         console.log('run', 'popSize', popSize)
 
-        let experiment = new population(popSize, n)
+        let experiment = new population(popSize, n, mutationProb)
         experiment.run(iterations)
     }
 
     return (
         <div className="App">
             <Header />
-            <Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} />
+            <Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb}/>
             <Board size={n} />
             {/* <Footer /> */}
         </div>

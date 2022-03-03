@@ -38,7 +38,7 @@ table#options{
   /* background-color:red; */
   border: 1px solid black;
   /* height: 100%; */
-  width: 50%;
+  width: 75%;
   table-layout: fixed;
  }
 
@@ -46,6 +46,10 @@ table#options{
   /* word-wrap: break-word; */
   height: 100%;
   /* width: 100%; */
+}
+
+input{
+  vertical-align: middle;
 }
 
 caption{

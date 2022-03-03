@@ -54,11 +54,13 @@ class candidate {
 }
 
 class population {
-    constructor(size, n) {
+    constructor(size, n, mutationProb) {
         this.size = size //population size
         this.n = n //number of queens
         this.candidates = new Array(this.size)
         this.possiblePositions = new Array(this.n)
+        this.mutationProb = mutationProb/100
+        console.log("this.mutationProb:",this.mutationProb)
     }
     run(iterations) {
         // let defaultPopSize = 1
@@ -202,8 +204,7 @@ class population {
 
 
             //mutation of first offspring
-            //80% probability to occur
-            if (Math.random() <= 0.8) {
+            if (Math.random() < this.mutationProb) {
                 //randomly swap two values of the permutation
                 let indexA = Math.floor(Math.random() * offspringPerm0.length);
                 let indexB = Math.floor(Math.random() * offspringPerm0.length);
@@ -221,8 +222,7 @@ class population {
 
 
             //mutation of second offspring
-            //80% probability to occur
-            if (Math.random() <= 0.8) {
+            if (Math.random() < this.mutationProb) {
                 //randomly swap two values of the permutation
                 let indexA = Math.floor(Math.random() * offspringPerm1.length);
                 let indexB = Math.floor(Math.random() * offspringPerm1.length);
@@ -255,7 +255,8 @@ class population {
         })
 
         // console.log("new population",offspring)
-        this.candidates = offspring.splice(0, 100);
+        //take top half
+        this.candidates = offspring.splice(0, this.candidates.length);
     }
 }
 
