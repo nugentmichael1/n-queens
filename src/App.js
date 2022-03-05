@@ -19,8 +19,7 @@ function App() {
 
     const [n, setN] = useState(defaultN)
 
-    // var queensArr = new Array(defaultN)
-    const [queens, setQueens] = useState(new Array(defaultN))
+    const [queens, setQueens] = useState(undefined)
 
     const [popSize, setPopSize] = useState(100)
 
@@ -28,7 +27,7 @@ function App() {
 
     const [termCond, setTermCond] = useState(defaultIterations)
 
-    const [curPerm, setCurPerm] = useState(undefined)
+    // const [curPerm, setCurPerm] = useState(undefined)
 
     const [results, setResults] = useState(undefined)
 
@@ -38,13 +37,12 @@ function App() {
 
         // console.log(n)
         setN(n)
-        setQueens(new Array(n))
+        // setQueens(new Array(n))
     }
 
     const updatePopSize = (popSize) => {
         if (popSize === "") setPopSize(0)
 
-        // console.log("popSize changed to:",popSize)
         setPopSize(popSize)
     }
 
@@ -63,8 +61,8 @@ function App() {
                     <Route path="about" element={<About />} />
                     <Route path="home" element={<Home />} />
                     <Route path="options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
-                    <Route path="board" element={<Board size={n} curPerm={curPerm} />} />
-                    <Route path="results" element={<Results results={results} n={n} updateBoard={updateBoard} />} />
+                    <Route path="board" element={<Board size={n} queens={queens} />} />
+                    <Route path="results" element={<Results results={results} n={n} setQueens={setQueens} />} />
                 </Route>
 
             </Routes>
@@ -73,13 +71,3 @@ function App() {
 }
 
 export default App;
-
-
-/*
-            //{/* <Nav /> */
-
-/* <Home />
-<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />
-<Board size={n} />
-<Footer />
-*/

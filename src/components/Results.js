@@ -21,7 +21,7 @@ const Results = props => {
             </tr>
         </thead>
         <tbody>
-            {props.results.map(({ rank, permutation, score }) => (<tr key={rank} onClick={() => props.updateBoard(permutation)}>
+            {props.results.map(({ rank, permutation, score }) => (<tr key={rank} onClick={() => props.setQueens(permutation)}>
                 <td>
                     {rank+1}
                 </td>
