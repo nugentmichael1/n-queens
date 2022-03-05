@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
 html{
   /* background-image: url('images/queen.png');
   background-size: 100%; */
@@ -87,4 +92,33 @@ table{
 td{
   height: 5vh;
   width: 5vw;
+}
+
+nav ul{
+  list-style-type: none;
+  background-color: black;
+  overflow: auto;
+}
+
+nav li{
+  float: left;
+  padding: 4vh 4vw;
+}
+
+nav a{
+  text-decoration: none;
+  color: white;
+}
+
+.NavLink{
+  background-color: black;
+}
+
+.NavLink-Active{
+  background-color: green;
+}
+
+nav{
+  margin: 0;
+  padding: 0;
 }

@@ -1,10 +1,13 @@
 import './App.css';
 import Board from './components/Board'
-import Header from './components/Header'
+import Home from './pages/Home'
 import Options from './components/Options'
 import Footer from './components/Footer'
+import { Nav, NavLink, NavBar } from './components/Nav'
+import About from './pages/About'
 import { useState } from 'react'
 import { population } from './EvolutionaryAlgorithm'
+import { Routes, Route, BrowserRouter } from "react-router-dom"
 
 
 function App() {
@@ -16,8 +19,8 @@ function App() {
 
     const [n, setN] = useState(defaultN)
 
-    var queensArr = new Array(defaultN)
-    const [queens, setQueens] = useState(queensArr)
+    // var queensArr = new Array(defaultN)
+    const [queens, setQueens] = useState(new Array(defaultN))
 
     const [popSize, setPopSize] = useState(100)
 
@@ -27,7 +30,7 @@ function App() {
 
     const updateN = (n) => {
         // Catches empty text string
-        if (n === "") return
+        if (n === "") setN(0)
 
         // console.log(n)
         setN(n)
@@ -35,12 +38,12 @@ function App() {
     }
 
     const updatePopSize = (popSize) => {
-        if (popSize === "") return
+        if (popSize === "") setPopSize(0)
 
-        console.log("popSize changed to:",popSize)
+        // console.log("popSize changed to:",popSize)
         setPopSize(popSize)
     }
-    
+
     const run = () => {
         console.log('run', 'popSize', popSize)
 
@@ -49,13 +52,29 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <Header />
-            <Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond}/>
-            <Board size={n} />
-            {/* <Footer /> */}
-        </div>
-    )
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<NavBar test="3" />} >
+                    <Route index element={<Home />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
+                    <Route path="board" element={<Board size={n} />} />
+                </Route>
+
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
+
+
+/*
+            //{/* <Nav /> */
+
+/* <Home />
+<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />
+<Board size={n} />
+<Footer />
+*/
