@@ -34,11 +34,6 @@ const Results = props => {
     </table>
         : undefined
 
-
-
-
-
-
     return <>
         <h1>Results</h1>
         {rTable ? "A perfect score -- n*(n-1)=" + props.n + "*" + (props.n-1) + "=" + maxScore + " --  indicates a solution.  The selection of any row will show the respective queen positions on the Board page." : "Once a experiment is ran, a table of results will appear here."}
@@ -47,3 +42,14 @@ const Results = props => {
 }
 
 export default Results;
+
+
+/*
+useNavigate to redirect to the board on result permutation selection.
+
+-----
+import {useNavigate} from "react-router-dom"
+
+let navigate = useNavigate();
+navigate("/board");
+*/
