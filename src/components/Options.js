@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, termCond, setTermCond }) => {
+
+
+    let navigate=useNavigate();
 
     return <>
         <h1>Options</h1>
@@ -83,11 +88,6 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                         {termCond.toLocaleString("en-US")} Iterations
                     </td>
                 </tr>
-                <tr>
-                    <td colSpan='2'>
-                        <button onClick={run}>Run</button>
-                    </td>
-                </tr>
                 {/* <tr>
                 <td>Initialization</td>
                 <td>
@@ -105,6 +105,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
             </tr> */}
             </tbody>
         </table>
+        <button onClick={() => (run(), navigate("/results"))}>Run</button>
     </>;
 };
 
