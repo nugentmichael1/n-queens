@@ -14,6 +14,7 @@ const NavBar = (test) => {
             <ul className='nav'>
                 <NavLink page='home' selected={page === 'home'} />
                 <NavLink page='options' selected={page === 'options'} />
+                <NavLink page='results' selected={page ==='results'} />
                 <NavLink page='board' selected={page==='board'}/>
                 <NavLink page='about' selected={page === 'about'} />
             </ul>
@@ -22,23 +23,5 @@ const NavBar = (test) => {
     </>
     );
 };
-
-// const Nav = () => {
-
-
-//     return <>
-//         <nav>
-//             < ul >
-//                 <li>
-//                     <Link to="/Home">Home</Link>
-//                 </li>
-//                 <li>
-//                     <Link to="/About">About</Link>
-//                 </li>
-//             </ul >
-//         </nav>
-//         <Outlet />
-//     </>
-// };
 
 export { NavBar };

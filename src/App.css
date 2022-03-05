@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 html{
@@ -89,7 +90,7 @@ table{
   background-position: center;
 }
 
-td{
+table.board td{
   height: 5vh;
   width: 5vw;
 }

@@ -36,7 +36,7 @@ const BoardRow = ({ label, rowNum, n }) => {
     return <tr>{tds}</tr>
 };
 
-const Board = ({ size }) => {
+const Board = ({ size, curPerm }) => {
     var board = [];
     board.push(<XAxisLabels key={size + 1} n={size} />)
     for (let i = size; i > 0; i--) {
@@ -45,7 +45,14 @@ const Board = ({ size }) => {
     }
     board.push(<XAxisLabels key={size + 2} n={size} />)
 
-    return <table><tbody>{board}</tbody></table>
+    return <>
+        <h2>Permutation: {curPerm}</h2>
+        <table className="board">
+            <tbody>
+                {board}
+            </tbody>
+        </table>
+    </>
 
     // return <table>
     //     <XAxisLabels n={size} />
@@ -54,4 +61,8 @@ const Board = ({ size }) => {
     // </table>;
 };
 
-export default Board;
+const updateBoard = (permutation) => {
+    console.log("Permutation", permutation, "needs to be displayed")
+}
+
+export {Board, updateBoard};

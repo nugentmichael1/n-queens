@@ -4,6 +4,9 @@ class candidate {
         this.permutation = permutation
         this.calculateScore()
     }
+    setRank(rank){
+        this.rank = rank;
+    }
     calculateScore() {
 
         // step 1b: evaluate fitness
@@ -73,7 +76,12 @@ class population {
             this.survivorSelection(offspring);
         }
 
+        //set ranks
+        for(let i = 0;i<this.candidates.length;i++){
+            this.candidates[i].setRank(i)
+        }
         console.log("final candidates",this.candidates)
+        return this.candidates
 
     }
     initialize() {

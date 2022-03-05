@@ -1,9 +1,10 @@
 import './App.css';
-import Board from './components/Board'
+import { Board, updateBoard } from './components/Board'
 import Home from './components/Home'
 import Options from './components/Options'
 import { NavBar } from './components/Nav'
 import About from './components/About'
+import Results from './components/Results'
 import { useState } from 'react'
 import { population } from './components/EvolutionaryAlgorithm'
 import { Routes, Route, BrowserRouter } from "react-router-dom"
@@ -27,6 +28,10 @@ function App() {
 
     const [termCond, setTermCond] = useState(defaultIterations)
 
+    const [curPerm, setCurPerm] = useState(undefined)
+
+    const [results, setResults] = useState(undefined)
+
     const updateN = (n) => {
         // Catches empty text string
         if (n === "") setN(0)
@@ -47,7 +52,7 @@ function App() {
         console.log('run', 'popSize', popSize)
 
         let experiment = new population(popSize, n, mutationProb)
-        experiment.run(termCond)
+        setResults(experiment.run(termCond))
     }
 
     return (
@@ -58,7 +63,8 @@ function App() {
                     <Route path="about" element={<About />} />
                     <Route path="home" element={<Home />} />
                     <Route path="options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
-                    <Route path="board" element={<Board size={n} />} />
+                    <Route path="board" element={<Board size={n} curPerm={curPerm} />} />
+                    <Route path="results" element={<Results results={results} n={n} updateBoard={updateBoard} />} />
                 </Route>
 
             </Routes>
