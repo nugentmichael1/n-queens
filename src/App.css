@@ -83,7 +83,7 @@ table{
   background-position: center; */
 }
 
-.chosen{
+.selected{
   background-image: url('images/queen.png');
   background-size: 70%;
   background-repeat: no-repeat;
@@ -93,6 +93,7 @@ table{
 table.board td{
   height: 5vh;
   width: 5vw;
+  /* background-image: url('images/queen.png'); */
 }
 
 nav ul{

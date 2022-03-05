@@ -19,7 +19,7 @@ function App() {
 
     const [n, setN] = useState(defaultN)
 
-    const [queens, setQueens] = useState(undefined)
+    const [curCandidate, setCurCandidate] = useState(undefined)
 
     const [popSize, setPopSize] = useState(100)
 
@@ -61,8 +61,8 @@ function App() {
                     <Route path="about" element={<About />} />
                     <Route path="home" element={<Home />} />
                     <Route path="options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
-                    <Route path="board" element={<Board size={n} queens={queens} />} />
-                    <Route path="results" element={<Results results={results} n={n} setQueens={setQueens} />} />
+                    <Route path="board" element={<Board size={n} curCandidate={curCandidate} />} />
+                    <Route path="results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
                 </Route>
 
             </Routes>
