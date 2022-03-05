@@ -41,4 +41,4 @@ const NavBar = (test) => {
 //     </>
 // };
 
-export { NavLink, NavBar };
+export { NavBar };

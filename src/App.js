@@ -1,12 +1,11 @@
 import './App.css';
 import Board from './components/Board'
-import Home from './pages/Home'
+import Home from './components/Home'
 import Options from './components/Options'
-import Footer from './components/Footer'
-import { Nav, NavLink, NavBar } from './components/Nav'
-import About from './pages/About'
+import { NavBar } from './components/Nav'
+import About from './components/About'
 import { useState } from 'react'
-import { population } from './EvolutionaryAlgorithm'
+import { population } from './components/EvolutionaryAlgorithm'
 import { Routes, Route, BrowserRouter } from "react-router-dom"
 
 
