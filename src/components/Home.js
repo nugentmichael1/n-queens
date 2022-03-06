@@ -2,6 +2,7 @@ import queenChessPiece from '../images/queen.png';
 import { Link } from 'react-router-dom'
 
 const Home = () => {
+  console.log("Home Page Called")
   return <>
     <title>N-Queens EA</title>
     <h1>N-Queens</h1>

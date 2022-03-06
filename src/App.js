@@ -1,5 +1,5 @@
 import './App.css';
-import { Board, updateBoard } from './components/Board'
+import { Board } from './components/Board'
 import Home from './components/Home'
 import Options from './components/Options'
 import { NavBar } from './components/Nav'
@@ -7,7 +7,7 @@ import About from './components/About'
 import Results from './components/Results'
 import { useState } from 'react'
 import { population } from './components/EvolutionaryAlgorithm'
-import { Routes, Route, BrowserRouter } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 
 
 function App() {
@@ -54,19 +54,19 @@ function App() {
     }
 
     return (
-        <BrowserRouter>
+        <>
             <Routes>
-                <Route path="/" element={<NavBar test="3" />} >
-                    <Route index element={<Home />} />
-                    <Route path="about" element={<About />} />
-                    <Route path="home" element={<Home />} />
-                    <Route path="options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
-                    <Route path="board" element={<Board size={n} curCandidate={curCandidate} />} />
-                    <Route path="results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
-                </Route>
-
+                <Route path="/:page" element={<NavBar test="3" />} />
+                <Route path="/" element={<Navigate to="/home" />} />
             </Routes>
-        </BrowserRouter>
+            <Routes>
+                <Route path="/about" element={<About />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
+                <Route path="/board" element={<Board size={n} curCandidate={curCandidate} />} />
+                <Route path="/results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
+            </Routes>
+        </>
     );
 }
 
