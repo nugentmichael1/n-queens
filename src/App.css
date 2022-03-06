@@ -46,6 +46,8 @@ table#options{
   /* height: 100%; */
   width: 75%;
   table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 2vh 1vw;
  }
 
 #options td{
@@ -136,11 +138,15 @@ p{
   /* margin: 5vh 5vw; */
   padding: 0 5vw;
   width: 75%;
-  margin: 0 auto;
+  margin: 0 auto 2vh;
 }
 
 img#homeQueen{
   margin: 5vh 5vw;
   width: 25%;
   height: 25%;
+}
+
+.results td{
+  padding: 0 1vw;
 }

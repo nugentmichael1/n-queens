@@ -38,7 +38,7 @@ const Results = props => {
 
     return <>
         <h1>Results</h1>
-        {rTable ? "A perfect score -- n*(n-1)=" + props.n + "*" + (props.n - 1) + "=" + maxScore + " --  indicates a solution.  The selection of any row will show the respective queen positions on the Board page." : "Once an experiment is ran, a table of results will appear here."}
+        {rTable ? <p>A perfect score -- n*(n-1)= {+ props.n + "*" + (props.n - 1) } = {maxScore} --  indicates a solution.  The selection of any row will show the respective queen positions on the Board page.</p> : <p>Once an experiment is ran, a table of results will appear here.</p>}
         {rTable ? rTable : ""}
     </>
 }
