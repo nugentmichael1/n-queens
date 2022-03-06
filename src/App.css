@@ -135,6 +135,8 @@ h3{
 p{
   /* margin: 5vh 5vw; */
   padding: 0 5vw;
+  width: 75%;
+  margin: 0 auto;
 }
 
 img#homeQueen{
