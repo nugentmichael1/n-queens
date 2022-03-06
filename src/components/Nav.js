@@ -8,7 +8,7 @@ const NavLink = ({ page, selected }) => {
 
 const NavBar = (test) => {
     const { page } = useParams().page || "home";
-    console.log(test)
+    // console.log(test)
     return (<>
         <nav>
             <ul className='nav'>

@@ -39,13 +39,13 @@ const BoardRow = ({ label, rowNum, n, queen }) => {
 };
 
 const Board = ({ size, curCandidate }) => {
-    console.log(curCandidate)
-    console.log(curCandidate == undefined)
+    // console.log(curCandidate)
+    // console.log(curCandidate == undefined)
     var board = [];
     board.push(<XAxisLabels key={size + 1} n={size} />)
     for (let i = size; i > 0; i--) {
         // let odd = (i % 2 === 0) ? true : false
-        
+
         let j = 0;
         //find row number's queen positions
         if (curCandidate) {
@@ -58,7 +58,7 @@ const Board = ({ size, curCandidate }) => {
     board.push(<XAxisLabels key={size + 2} n={size} />)
 
     return <>
-        <h2>Permutation: {curCandidate ? curCandidate.permutation: ""}</h2>
+        <h2>Permutation: {curCandidate ? curCandidate.permutation : ""}</h2>
         <table className="board">
             <tbody>
                 {board}
@@ -67,8 +67,4 @@ const Board = ({ size, curCandidate }) => {
     </>
 };
 
-const updateBoard = (permutation) => {
-    console.log("Permutation", permutation, "needs to be displayed")
-}
-
-export { Board, updateBoard };
+export { Board }
