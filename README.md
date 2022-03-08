@@ -1,4 +1,6 @@
-Hosted on firebase at links [https://n-queens-e32f3.web.app](http://n-queens-e32f3.web.app), and [http://n-queens-e32f3.firebaseapp.com](http://n-queens-e32f3.firebaseapp.com).
+## Hosted on Firebase 
+[https://n-queens-e32f3.web.app](https://n-queens-e32f3.web.app)    
+[https://n-queens-e32f3.firebaseapp.com](https://n-queens-e32f3.firebaseapp.com)
 
 
 # REACT default readme --------------
