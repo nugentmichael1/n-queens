@@ -1,3 +1,7 @@
+Hosted on firebase at links: [n-queens-e32f3.web.app, n-queens-e32f3.firebaseapp.com]
+
+
+# REACT default readme --------------
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
