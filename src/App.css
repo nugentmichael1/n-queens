@@ -107,6 +107,7 @@ nav ul{
 nav li{
   float: left;
   padding: 4vh 4vw;
+  /* border-radius: 20vh 20vw 0 0; */
 }
 
 nav a{
