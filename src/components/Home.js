@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 const Home = () => {
   console.log("Home Page Called")
   return <>
-    <title>N-Queens EA</title>
     <h1>N-Queens</h1>
     <img src={queenChessPiece} alt="Queen chess piece" id="homeQueen" />
     <h2>Solved by Evolutionary Algorithm</h2>
