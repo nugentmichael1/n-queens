@@ -42,9 +42,10 @@ footer ul{
 
 table#options{ 
   /* background-color:red; */
+  margin: 2vh auto;
   border: 1px solid black;
   /* height: 100%; */
-  width: 75%;
+  /* width: 75%; */
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 2vh 1vw;
@@ -64,7 +65,7 @@ caption{
   text-align: left;
 }
 
-table{
+table.board{
   /* Centers table */
   margin: 0 auto;
   border-collapse: collapse;
@@ -123,12 +124,8 @@ nav a{
   background-color: green;
 }
 
-h1{
-  padding: 5vh 5vw;
-}
-
-h2{
-  padding: 5vh 5vw;
+h1, h2{
+  padding: 2vh 5vw;
 }
 
 h3{
@@ -139,7 +136,7 @@ p{
   /* margin: 5vh 5vw; */
   padding: 0 5vw;
   width: 75%;
-  margin: 0 auto 2vh;
+  margin: 2vh auto;
 }
 
 img#homeQueen{
@@ -150,4 +147,8 @@ img#homeQueen{
 
 .results td{
   padding: 0 1vw;
+}
+
+ul li{
+  list-style-type: none;
 }

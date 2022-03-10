@@ -6,7 +6,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
     let navigate = useNavigate();
 
     return <>
-        <h1>Options</h1>
+        {/* <h1>Options</h1> */}
         <table id='options'>
             <thead>
                 <tr>
