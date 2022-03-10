@@ -1,3 +1,8 @@
+:root{
+  --CSUF-Red: #CC0033;
+  --CSUF-Blue: #00235D;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -145,10 +150,23 @@ img#homeQueen{
   height: 25%;
 }
 
+table.results{
+  margin: auto;
+}
 .results td{
   padding: 0 1vw;
 }
 
 ul li{
   list-style-type: none;
+}
+
+a{
+  text-decoration:none;
+  color: black;
+}
+
+a.fs:hover{
+  color: var(--CSUF-Red);
+  background-color: var(--CSUF-Blue);
 }
