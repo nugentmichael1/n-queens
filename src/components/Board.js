@@ -57,8 +57,10 @@ const Board = ({ size, curCandidate }) => {
     }
     board.push(<XAxisLabels key={size + 2} n={size} />)
 
+    let heading = curCandidate ? <h2>Permutation: {curCandidate.permutation}</h2>: <p>Select a combination from the results section to see its physical representation.</p>
     return <>
-        <h2>Permutation: {curCandidate ? curCandidate.permutation : ""}</h2>
+        {heading}
+        {/* <h2>Permutation: {curCandidate ? curCandidate.permutation : ""}</h2> */}
         <table className="board">
             <tbody>
                 {board}
