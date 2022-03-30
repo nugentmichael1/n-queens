@@ -36,9 +36,14 @@ const Results = props => {
     </table>
         : undefined
 
+
+    let pScore = <p>n * ( n - 1 ) = {+ props.n + " * " + (props.n - 1)} = {maxScore}</p>
+
+    let heading = rTable ? <ul> <li><p>A perfect permutation score indicates a solution.</p></li><li>{pScore}</li> <li><p>The selection of any row will show the respective queen positions on the Board page.</p></li></ul> : <p>Once an experiment is ran, a table of results will appear here.</p>
+
     return <>
         {/* <h1>Results</h1> */}
-        {rTable ? <p>A perfect score -- n*(n-1)= {+ props.n + "*" + (props.n - 1) } = {maxScore} --  indicates a solution.  The selection of any row will show the respective queen positions on the Board page.</p> : <p>Once an experiment is ran, a table of results will appear here.</p>}
+        {heading}
         {rTable ? rTable : ""}
     </>
 }

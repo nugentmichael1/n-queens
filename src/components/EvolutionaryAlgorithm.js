@@ -1,16 +1,30 @@
+class representation {
+
+    constructor(state) {
+        // this.type = type;
+        // if (this.type === "2dArray") {
+
+        // }
+        // else if (this.type == "perm") {
+        // }
+        // else {
+        //     console.log("representation passed does not match any possibilities")
+        // }
+    }
+}
 
 class candidate {
-    constructor(permutation) {
-        this.permutation = permutation
+    constructor(state) {
+        this.permutation = state
         this.calculateScore()
     }
-    setRank(rank){
+    setRank(rank) {
         this.rank = rank;
     }
     calculateScore() {
 
         // step 1b: evaluate fitness
-        //should only need to check for diagonal conflicts
+        //only need to check for diagonal conflicts on permutations
 
         let penalty = 0
 
@@ -57,43 +71,76 @@ class candidate {
 }
 
 class population {
-    constructor(size, n, mutationProb) {
+    constructor(size, n, mutationProb, iterations, rep) {
         this.size = size //population size
         this.n = n //number of queens
         this.candidates = new Array(this.size)
         this.possiblePositions = new Array(this.n)
-        this.mutationProb = mutationProb/100
-        console.log("this.mutationProb:",this.mutationProb)
+        this.mutationProb = mutationProb / 100
+        // console.log("this.mutationProb:", this.mutationProb)
+        this.iterations = iterations;
+        this.rep = rep;
     }
-    run(iterations) {
-        // let defaultPopSize = 1
-        // step 1: initilization - generate and evaluate population
+
+    //main function for class.  calls all other utility functions.
+    run() {
+
+        // step 1: initilization - generate first population.  
+        // fitness is automatically evaluated in candidate constructor.
         this.initialize();
 
-        for (let i = 0; i < iterations; i++) {
-            let offspring = this.tournamentSelection();
-            // console.log("offspring",offspring)
-            this.survivorSelection(offspring);
+        for (let i = 0; i < this.iterations; i++) {
+
+            //copy of candidates array that will eventually include all offspring, too
+            let newPop = [...this.candidates]
+
+            //double population size through 
+            for (let j = 0; j < this.candidates.length / 2; j++) {
+
+                // randomly select 5 candidates and identify best 2
+                let parent = this.tournamentSelection();
+
+                //top two parents are used to create two offspring through recombination
+                let offspring = this.recombination(parent);
+
+                //mutation of first offspring
+                if (Math.random() < this.mutationProb) {
+                    offspring[0] = this.mutate(offspring[0]);
+                }
+
+                //mutation of second offspring
+                if (Math.random() < this.mutationProb) {
+                    offspring[1] = this.mutate(offspring[1])
+                }
+
+                //push offspring onto the population array
+                newPop.push(new candidate(offspring[0]))
+                newPop.push(new candidate(offspring[1]))
+            }
+            
+            //reduces ranked population by half for next iteration
+            this.survivorSelection(newPop);
         }
 
-        //set ranks
-        for(let i = 0;i<this.candidates.length;i++){
+        //set ranks.  helps react assign keys to table rows in results.
+        for (let i = 0; i < this.candidates.length; i++) {
             this.candidates[i].setRank(i)
         }
-        console.log("final candidates",this.candidates)
-        return this.candidates
 
+        return this.candidates
     }
+
     initialize() {
         // step 1a: generate first population
 
+        //ensures unique values for each index
         for (let j = 0; j < this.n; j++) {
             this.possiblePositions[j] = j + 1;
         }
 
         //generation of all candidates
         for (let i = 0; i < this.candidates.length; i++) {
-            let perm = new Array(this.n)
+            let state = new Array(this.n)
 
             //copy of possiblePositions so pop() can be performed
             let deck = [...this.possiblePositions]
@@ -109,163 +156,121 @@ class population {
                 deck[position] = tmp
 
                 //pop last item from stack onto candidate solution
-
-                // console.log('deck', deck)
-                // console.log('candidateSolution', candidateSolution)
-
-                perm[j] = deck.pop()
+                state[j] = deck.pop()
 
             }
             // console.log(candidateSolution)
-            this.candidates[i] = new candidate(perm)
+            this.candidates[i] = new candidate(state)
             // console.log(this.candidates[i])
         }
-
     }
+
+    //tournament selection: return best 2 out of random 5
     tournamentSelection() {
-        //tournament selection: best 2 out of 5
-        // randomly select 5 candidates, identify best 2 and cross-over to create offspring
-        let offspring = [...this.candidates]
-        for (let j = 0; j < this.candidates.length / 2; j++) {
-            const parentCandidates = []
 
-            for (let i = 0; i < 5; i++) {
-                parentCandidates[i] = this.candidates[Math.floor(Math.random() * this.candidates.length)]
-            }
-            //sort the randomly chosen parentCandidates by score: descending
-            parentCandidates.sort((a, b) => {
-                return b.score - a.score;
-            })
+        //will capture five random parents
+        const parentCandidates = []
 
-            //debug: show chosen parentCandidates in console
-            // for (let i = 0; i < 5; i++) {
-            //     console.log(parentCandidates[i]);
-            // }
-
-            //recombination
-            // take top two and use "cut-and-crossfill" crossover method
-            //randomly choose index between 1 and length-2
-            let cut = Math.floor(Math.random() * (parentCandidates[0].permutation.length - 1 - 2) + 1)
-
-            //debug: flag cut index out-of-range
-            // if(cut < 1 || cut > parentCandidates[0].permutation.length - 1) console.log("cut index out of range!",cut);
-            //debug: show cut index selection
-            // console.log("cut", cut);
-
-            //offspring 1 recombination
-            let k = cut;
-            let offspringPerm0 = [...parentCandidates[0].permutation]
-            for (let i = cut; i < parentCandidates[1].permutation.length; i++) {
-                let val = parentCandidates[1].permutation[i];
-                let skip = false
-                //search for value in pre-cut section
-                for (let m = 0; m < cut; m++) {
-                    if (parentCandidates[0].permutation[m] === val) {
-                        skip = true
-                        break;
-                    }
-                }
-                if (!skip) offspringPerm0[k++] = val;
-            }
-            for (let i = 0; k < parentCandidates[1].permutation.length; i++) {
-                let val = parentCandidates[1].permutation[i];
-                let skip = false
-                for (let m = 0; m < cut; m++) {
-                    if (parentCandidates[0].permutation[m] === val) {
-                        skip = true
-                        break;
-                    }
-                }
-                if (!skip) offspringPerm0[k++] = val;
-            }
-            //debug
-            // console.log("offspringPerm0", offspringPerm0)
-
-            //offspring 2 recombination
-            k = cut;
-            let offspringPerm1 = [...parentCandidates[1].permutation]
-            for (let i = cut; i < parentCandidates[0].permutation.length; i++) {
-                let val = parentCandidates[0].permutation[i];
-                let skip = false;
-                //search for value in pre cut section
-                for (let m = 0; m < cut; m++) {
-                    if (parentCandidates[1].permutation[m] === val) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (!skip) offspringPerm1[k++] = val;
-            }
-            for (let i = 0; k < parentCandidates[0].permutation.length; i++) {
-                let val = parentCandidates[0].permutation[i];
-                let skip = false
-                for (let m = 0; m < cut; m++) {
-                    if (parentCandidates[1].permutation[m] === val) {
-                        skip = true
-                        break;
-                    }
-                }
-                if (!skip) offspringPerm1[k++] = val;
-            }
-            //debug
-            // console.log("offspringPerm1", offspringPerm1)
-
-
-            //mutation of first offspring
-            if (Math.random() < this.mutationProb) {
-                //randomly swap two values of the permutation
-                let indexA = Math.floor(Math.random() * offspringPerm0.length);
-                let indexB = Math.floor(Math.random() * offspringPerm0.length);
-                //reroll until A and B are two different indexes
-                while (indexA === indexB) indexB = Math.floor(Math.random() * offspringPerm0.length);
-
-                //swap values
-                let tmp = offspringPerm0[indexA];
-                offspringPerm0[indexA] = offspringPerm0[indexB];
-                offspringPerm0[indexB] = tmp;
-
-                //debug
-                // console.log("mutation offspringPerm0", offspringPerm0)
-            }
-
-
-            //mutation of second offspring
-            if (Math.random() < this.mutationProb) {
-                //randomly swap two values of the permutation
-                let indexA = Math.floor(Math.random() * offspringPerm1.length);
-                let indexB = Math.floor(Math.random() * offspringPerm1.length);
-                //reroll until A and B are two different indexes
-                while (indexA === indexB) indexB = Math.floor(Math.random() * offspringPerm1.length);
-
-                //swap values
-                let tmp = offspringPerm1[indexA];
-                offspringPerm1[indexA] = offspringPerm1[indexB];
-                offspringPerm1[indexB] = tmp;
-
-                //debug
-                // console.log("mutation offspringPerm1", offspringPerm1)
-            }
-
-            offspring.push(new candidate(offspringPerm0))
-            offspring.push(new candidate(offspringPerm1))
+        for (let i = 0; i < 5; i++) {
+            parentCandidates[i] = this.candidates[Math.floor(Math.random() * this.candidates.length)]
         }
 
-        return offspring
-        //debug
-        // console.log("offspring length",offspring.length)
+        //sort the randomly chosen parentCandidates by score: descending
+        parentCandidates.sort((a, b) => {
+            return b.score - a.score;
+        })
 
+        //best two parents returned
+        return [parentCandidates[0], parentCandidates[1]];
     }
+
+    //takes array of two parents and produces array of two offspring
+    recombination(parent) {
+
+        //randomly choose index between 1 and length-2
+        let cut = Math.floor(Math.random() * (parent[0].permutation.length - 1 - 2) + 1)
+
+        //offspring 1 recombination
+        let k = cut;
+        let offspring0 = [...parent[0].permutation]
+        for (let i = cut; i < parent[1].permutation.length; i++) {
+            let val = parent[1].permutation[i];
+            let skip = false
+            //search for value in pre-cut section
+            for (let m = 0; m < cut; m++) {
+                if (parent[0].permutation[m] === val) {
+                    skip = true
+                    break;
+                }
+            }
+            if (!skip) offspring0[k++] = val;
+        }
+        for (let i = 0; k < parent[1].permutation.length; i++) {
+            let val = parent[1].permutation[i];
+            let skip = false
+            for (let m = 0; m < cut; m++) {
+                if (parent[0].permutation[m] === val) {
+                    skip = true
+                    break;
+                }
+            }
+            if (!skip) offspring0[k++] = val;
+        }
+
+        //offspring 2 recombination
+        k = cut;
+        let offspring1 = [...parent[1].permutation]
+        for (let i = cut; i < parent[0].permutation.length; i++) {
+            let val = parent[0].permutation[i];
+            let skip = false;
+            //search for value in pre cut section
+            for (let m = 0; m < cut; m++) {
+                if (parent[1].permutation[m] === val) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (!skip) offspring1[k++] = val;
+        }
+        for (let i = 0; k < parent[0].permutation.length; i++) {
+            let val = parent[0].permutation[i];
+            let skip = false
+            for (let m = 0; m < cut; m++) {
+                if (parent[1].permutation[m] === val) {
+                    skip = true
+                    break;
+                }
+            }
+            if (!skip) offspring1[k++] = val;
+        }
+        return [offspring0, offspring1]
+    }
+
+    mutate(offspringState) {
+        //randomly swap two values of the permutation
+        let indexA = Math.floor(Math.random() * offspringState.length);
+        let indexB = Math.floor(Math.random() * offspringState.length);
+
+        //reroll until A and B are two different indexes
+        while (indexA === indexB) indexB = Math.floor(Math.random() * offspringState.length);
+
+        //swap values
+        let tmp = offspringState[indexA];
+        offspringState[indexA] = offspringState[indexB];
+        offspringState[indexB] = tmp;
+
+        return offspringState;
+    }
+
     survivorSelection(offspring) {
-        //survivor selection
         //sort new population (previous and offspring)
         offspring.sort((a, b) => {
             return b.score - a.score;
         })
 
-        // console.log("new population",offspring)
         //take top half
         this.candidates = offspring.splice(0, this.candidates.length);
     }
 }
 
-export {candidate, population}
+export { candidate, population }

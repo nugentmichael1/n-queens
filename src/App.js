@@ -25,6 +25,8 @@ function App() {
 
     const [mutationProb, setMutationProb] = useState(80)
 
+    const [rep, setRep] = useState(1)
+
     const [termCond, setTermCond] = useState(defaultIterations)
 
     // const [curPerm, setCurPerm] = useState(undefined)
@@ -49,8 +51,8 @@ function App() {
     const run = () => {
         console.log('run', 'popSize', popSize)
 
-        let experiment = new population(popSize, n, mutationProb)
-        setResults(experiment.run(termCond))
+        let experiment = new population(popSize, n, mutationProb, termCond, rep)
+        setResults(experiment.run())
     }
 
     return (
@@ -62,7 +64,7 @@ function App() {
             <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} termCond={termCond} setTermCond={setTermCond} />} />
+                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} rep={rep} setRep={setRep} termCond={termCond} setTermCond={setTermCond} />} />
                 <Route path="/board" element={<Board size={n} curCandidate={curCandidate} />} />
                 <Route path="/results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
             </Routes>

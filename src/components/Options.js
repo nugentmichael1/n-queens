@@ -1,9 +1,26 @@
 import { useNavigate } from "react-router-dom";
 
-const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, termCond, setTermCond }) => {
+const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, rep, setRep, termCond, setTermCond }) => {
 
 
     let navigate = useNavigate();
+
+    //descriptions
+    // let initDescription = { rep }.rep === 0 ? "Normal" : "Smart" Random: ;
+    // initDescription += { rep }.rep ? "2D Array, Maximum collsion potential" : "1D Array Permutation, Avoids horizontal and vertical collisions";
+
+    let repStr = {rep}.rep === 0 ? "2D Array" : "Permutation";
+
+    // let arr2D = Array(8);
+
+    // arr2D[4] = [3,1];
+
+    // console.log(arr2D)
+
+    // let arr = [1,2,3,4,5,6,7,8];
+    // console.log(arr);
+    // let arr1 = [arr[0],arr[4]];
+    // console.log(arr1);
 
     return <>
         {/* <h1>Options</h1> */}
@@ -33,7 +50,10 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                     <td>
                         Representation
                     </td>
-                    <td>Permutations</td>
+                    <td>{repStr}</td>
+                    <td>
+                        <input type="range" min="0" max="1" value={rep} id="rep" onInput={() => { setRep(Number(document.getElementById("rep").value)) }} />
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -98,13 +118,17 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                     <td>
                         Initialization
                     </td>
-                    <td>Smart Random (avoids horizontal and vertical collisions)</td>
+                    <td>Random</td>
+                    <td>
+                        {/* <label htmlFor="normalInit">Normal</label><input type="radio" value="normal" name="init" id="normalInit" />
+                        <label htmlFor="smartInit">Smart</label><input type="radio" value="smart" name="init" id="smartInit" /> */}
+
+                    </td>
                 </tr>
 
                 <tr>
                     <td>Termination Condition</td>
                     <td>
-
                         {termCond.toLocaleString("en-US")} Iterations
                     </td>
                     <td>
