@@ -101,6 +101,7 @@ const BoardRowEmpty = ({ label, rowNum, n }) => {
 const Board = ({ size, curCandidate }) => {
 
     var board = [];
+    console.log("test");
 
     board.push(<XAxisLabels key={size + 1} n={size} />)
 

@@ -55,6 +55,11 @@ function App() {
         setResults(experiment.run())
     }
 
+    const resetResults = () => {
+        setResults(undefined)
+        setCurCandidate(undefined)
+    }
+
     return (
         <>
             <Routes>
@@ -64,7 +69,7 @@ function App() {
             <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} rep={rep} setRep={setRep} termCond={termCond} setTermCond={setTermCond} />} />
+                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} rep={rep} setRep={setRep} termCond={termCond} setTermCond={setTermCond} resetResults={resetResults}/>} />
                 <Route path="/board" element={<Board size={n} curCandidate={curCandidate} />} />
                 <Route path="/results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
             </Routes>

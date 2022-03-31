@@ -479,6 +479,4 @@ class population {
     }
 }
 
-
-
-export { candidate, population }
+export { population }

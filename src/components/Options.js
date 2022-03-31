@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, rep, setRep, termCond, setTermCond }) => {
+const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMutationProb, rep, setRep, termCond, setTermCond, resetResults }) => {
 
 
     let navigate = useNavigate();
@@ -10,6 +10,8 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
     // initDescription += { rep }.rep ? "2D Array, Maximum collsion potential" : "1D Array Permutation, Avoids horizontal and vertical collisions";
 
     let repStr = { rep }.rep === 0 ? "2D Array" : "Permutation";
+
+    let description = <p>The adjustment of any parameter will erase the results a previously ran experiment.</p>
 
     return <>
         {/* <h1>Options</h1> */}
@@ -32,7 +34,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                         {n}
                     </td>
                     <td>
-                        <input type="range" min="4" max="20" value={n} id="n" onInput={() => { updateN(Number(document.getElementById("n").value)) }} />
+                        <input type="range" min="4" max="20" value={n} id="n" onInput={() => (updateN(Number(document.getElementById("n").value)), resetResults())} />
                     </td>
                 </tr>
                 <tr>
@@ -41,7 +43,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                     </td>
                     <td>{repStr}</td>
                     <td>
-                        <input type="range" min="0" max="1" value={rep} id="rep" onInput={() => { setRep(Number(document.getElementById("rep").value)) }} />
+                        <input type="range" min="0" max="1" value={rep} id="rep" onInput={() => (setRep(Number(document.getElementById("rep").value)), resetResults())} />
                     </td>
                 </tr>
                 <tr>
@@ -70,7 +72,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                         {mutationProb}%
                     </td>
                     <td>
-                        <input type="range" min="0" max="100" value={mutationProb} id="mutationProb" onInput={() => { setMutationProb(Number(document.getElementById("mutationProb").value)) }} />
+                        <input type="range" min="0" max="100" value={mutationProb} id="mutationProb" onInput={() => (setMutationProb(Number(document.getElementById("mutationProb").value)), resetResults())} />
                     </td>
                 </tr>
                 <tr>
@@ -94,7 +96,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                         {/* <input type='text' value={popSize} size='1' id='popSize' onChange={() => { updatePopSize(Number(document.getElementById('popSize').value)) }}></input> */}
                     </td>
                     <td>
-                        <input type="range" min="10" max="1000" value={popSize} id="popSize" onInput={() => { updatePopSize(Number(document.getElementById("popSize").value)) }} />
+                        <input type="range" min="10" max="1000" value={popSize} id="popSize" onInput={() => (updatePopSize(Number(document.getElementById("popSize").value)), resetResults())} />
                     </td>
                 </tr>
                 <tr>
@@ -121,27 +123,13 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
                         {termCond.toLocaleString("en-US")} Iterations
                     </td>
                     <td>
-                        <input type="range" min="100" max="10000" value={termCond} id="termCond" onInput={() => { setTermCond(Number(document.getElementById("termCond").value)) }} />
+                        <input type="range" min="100" max="10000" value={termCond} id="termCond" onInput={() => (setTermCond(Number(document.getElementById("termCond").value)), resetResults())} />
                     </td>
                 </tr>
-                {/* <tr>
-                <td>Initialization</td>
-                <td>
-                    <table>
-                        <tbody>
-                            <tr>
-                                {initLabel}
-                            </tr>
-                            <tr>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr> */}
             </tbody>
         </table>
         <button onClick={() => (run(), navigate("/results"))}>Run</button>
+        {description}
     </>;
 };
 

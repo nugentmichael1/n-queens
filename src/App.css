@@ -152,8 +152,9 @@ img#homeQueen{
 
 table.results{
   margin: auto;
+  border-collapse: collapse;
 }
-.results td{
+.results td, .results th{
   padding: 0 1vw;
 }
 
@@ -169,4 +170,12 @@ a{
 a.fs:hover{
   color: var(--CSUF-Red);
   background-color: var(--CSUF-Blue);
+}
+
+tr.notSolution{
+  background-color: rgb(54, 0, 0);
+}
+
+tr.solution:hover, tr.notSolution:hover{
+  background-color: white;
 }
