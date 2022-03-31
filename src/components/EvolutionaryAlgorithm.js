@@ -19,8 +19,8 @@ class candidate2DRep {
 
         for (let i = 0; i < this.state.length; i++) {
 
-            let x = this.state[i][0];
-            let y = this.state[i][1];
+            let x = this.state[i][0] - 1;
+            let y = this.state[i][1] - 1;
 
             matrix[x][y] += 1;
         }
@@ -32,8 +32,8 @@ class candidate2DRep {
 
             let penalty = 0;
 
-            let x = this.state[i][0];
-            let y = this.state[i][1];
+            let x = this.state[i][0] - 1;
+            let y = this.state[i][1] - 1;
 
             //accounts for other queens in this queen's location
             if (matrix[x][y] > 1) penalty = matrix[x][y] - 1;
@@ -82,6 +82,21 @@ class candidate2DRep {
         }
 
         this.score = (this.state.length * (this.state.length - 1)) - statePenalty
+    }
+
+    sortState() {
+        this.state.sort((a, b) => {
+            return (a[0] > b[0])
+        });
+    }
+
+    present() {
+        let presentation = []
+        for (let i = 0; i < this.state.length; i++) {
+            let x = this.state[i][0];
+            presentation.push(String.fromCharCode(65 + x - 1) + this.state[i][1])
+        }
+        return presentation;
     }
 }
 
@@ -134,6 +149,14 @@ class candidate {
 
         //worst possible penalty would be n*(n-1): n-1 collisions per queen and n queens
         this.score = (this.state.length * (this.state.length - 1)) - penalty
+    }
+
+    present() {
+        let presentation = []
+        for (let i = 0; i < this.state.length; i++) {
+            presentation.push(String.fromCharCode(65 + i) + this.state[i])
+        }
+        return presentation;
     }
 }
 
@@ -248,6 +271,7 @@ class population {
         //set ranks.  helps react assign keys to table rows in results.
         for (let i = 0; i < this.candidates.length; i++) {
             this.candidates[i].setRank(i)
+            this.candidates[i].sortState();
         }
 
         return this.candidates
@@ -256,7 +280,7 @@ class population {
     // step 1: generate first population
     initialize() {
 
-        //ensures unique values for each index
+        //ensures unique values [1-n] for each index
         for (let j = 0; j < this.n; j++) {
             this.possiblePositions[j] = j + 1;
         }
@@ -297,8 +321,8 @@ class population {
 
             for (let j = 0; j < state.length; j++) {
                 //randomly choose element from 1-N
-                let positionX = Math.floor(Math.random() * this.n);
-                let positionY = Math.floor(Math.random() * this.n);
+                let positionX = Math.floor(Math.random() * this.n) + 1;
+                let positionY = Math.floor(Math.random() * this.n) + 1;
 
                 //pop last item from stack onto candidate solution
                 state[j] = [positionX, positionY];
@@ -431,10 +455,10 @@ class population {
         let y = offspringState[indexTarget][1];
 
         while (x === offspringState[indexTarget][0]) {
-            x = Math.floor(Math.random() * this.n);
+            x = Math.floor(Math.random() * this.n) + 1;
         }
         while (y === offspringState[indexTarget][1]) {
-            y = Math.floor(Math.random() * this.n);
+            y = Math.floor(Math.random() * this.n) + 1;
         }
 
         //replace values

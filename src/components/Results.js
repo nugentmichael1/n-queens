@@ -27,7 +27,8 @@ const Results = props => {
                     {candidate.rank + 1}
                 </td>
                 <td>
-                    {candidate.state.map(character => (character + " "))}
+                    {candidate.present().map(val => (val + " "))}
+                    {/* {candidate.state.map(character => (character + " "))} */}
                 </td>
                 <td>{candidate.score}</td>
             </tr>))}
