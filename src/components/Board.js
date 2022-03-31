@@ -57,7 +57,9 @@ const Board = ({ size, curCandidate }) => {
     }
     board.push(<XAxisLabels key={size + 2} n={size} />)
 
-    let heading = curCandidate ? <h2>state: {curCandidate.state}</h2>: <p>Select a combination from the results section to see its physical representation.</p>
+    let state = curCandidate ? curCandidate.state.map(character => (character + " ")) : ""
+
+    let heading = curCandidate ? <h2>State: {state}</h2>: <p>Select a combination from the results section to see its physical representation.</p>
     return <>
         {heading}
         {/* <h2>state: {curCandidate ? curCandidate.state : ""}</h2> */}

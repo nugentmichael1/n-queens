@@ -3,11 +3,6 @@ class candidate2DRep {
     constructor(state) {
         this.state = state;
         this.calculateScore();
-        // this.state.length = state.length;
-        // console.log("this.state.length",this.state.length)
-        // console.log("state.length",state.length)
-        // console.log(typeof(this.state.length))
-        // console.log(typeof(state.length));
     }
 
     setRank(rank) {
@@ -16,22 +11,18 @@ class candidate2DRep {
 
     calculateScore() {
 
-        // console.log("this.state.length", this.state.length)
         //make 2d matrix and fill in values based on how many queens are in each location
         let matrix = Array(this.state.length);
         for (let i = 0; i < matrix.length; i++) {
             matrix[i] = Array(matrix.length).fill(0);
-            // console.log("matrix fill", i);
         }
-        // console.log(matrix);
 
         for (let i = 0; i < this.state.length; i++) {
-            // console.log("test");
+
             let x = this.state[i][0];
             let y = this.state[i][1];
-            // console.log("x,y", x, y);
+
             matrix[x][y] += 1;
-            // console.log(matrix[x][y]);
         }
 
         let statePenalty = 0;
@@ -89,14 +80,8 @@ class candidate2DRep {
 
             statePenalty += penalty;
         }
-        // console.log(this.state);
-        // console.log("statePenalty", statePenalty);
-        // console.log("this.state.length:",this.state.length)
-        // console.log("typeof(this.state.length):",typeof(this.state.length));
-        // console.log("this.state.length * (this.state.length -1)", (this.state.length * (this.state.length - 1)));
+
         this.score = (this.state.length * (this.state.length - 1)) - statePenalty
-        // console.log(typeof(this.score));
-        // console.log("state score", this.score);
     }
 }
 
@@ -122,14 +107,12 @@ class candidate {
             for (let a = j - 1, b = this.state[j] + 1; a >= 0 && b <= this.state.length; a--, b++) {
                 if (this.state[a] === b) {
                     individualPenalty += 1
-                    // console.log('collision(up-left)', String.fromCharCode(a + 65), b)
                 }
             }
             //check diagonal up-right
             for (let a = j + 1, b = this.state[j] + 1; a < this.state.length && b <= this.state.length; a++, b++) {
                 if (this.state[a] === b) {
                     individualPenalty += 1
-                    // console.log('collision(up-right)', String.fromCharCode(a + 65), b)
                 }
             }
 
@@ -137,7 +120,6 @@ class candidate {
             for (let a = j + 1, b = this.state[j] - 1; a < this.state.length && b >= 1; a++, b--) {
                 if (this.state[a] === b) {
                     individualPenalty += 1
-                    // console.log('collision(down-right)', String.fromCharCode(a + 65), b)
                 }
             }
 
@@ -145,13 +127,11 @@ class candidate {
             for (let a = j - 1, b = this.state[j] - 1; a >= 0 && b >= 1; a--, b--) {
                 if (this.state[a] === b) {
                     individualPenalty += 1
-                    // console.log('collision(down-left)', String.fromCharCode(a + 65), b)
                 }
             }
-            // console.log('column', String.fromCharCode(j + 65), 'individualPenalty', individualPenalty)
             penalty += individualPenalty
         }
-        // console.log('penalty', penalty)
+
         //worst possible penalty would be n*(n-1): n-1 collisions per queen and n queens
         this.score = (this.state.length * (this.state.length - 1)) - penalty
     }
@@ -164,7 +144,6 @@ class population {
         this.candidates = new Array(this.size)
         this.possiblePositions = new Array(this.n)
         this.mutationProb = mutationProb / 100
-        // console.log("this.mutationProb:", this.mutationProb)
         this.iterations = iterations;
         this.rep = rep;
     }
@@ -232,14 +211,13 @@ class population {
         // step 1: initilization - generate first population.  
         // fitness is automatically evaluated in candidate constructor.
         this.initialize2DRep();
-        // console.log("initialization complete");
+
         for (let i = 0; i < this.iterations; i++) {
 
             //copy of candidates array that will eventually include all offspring, too
             let newPop = [...this.candidates]
-            // console.log("iteration: ", i);
+
             //double population size through 
-            // console.log("this.candidates.length",this.candidates.length);
             for (let j = 0; j < this.candidates.length / 2; j++) {
 
                 // randomly select 5 candidates and identify best 2
@@ -262,11 +240,9 @@ class population {
                 newPop.push(new candidate2DRep(offspring[0]))
                 newPop.push(new candidate2DRep(offspring[1]))
             }
-            // console.log("survivor selection next");
 
             //reduces ranked population by half for next iteration
             this.survivorSelection(newPop);
-            // console.log("1 iteration complete");
         }
 
         //set ranks.  helps react assign keys to table rows in results.
@@ -313,8 +289,6 @@ class population {
 
     // step 1: generate first population
     initialize2DRep() {
-
-        // console.log("Entered initialize2DRep()");
 
         //generation of all candidates
         for (let i = 0; i < this.candidates.length; i++) {
@@ -430,73 +404,6 @@ class population {
             offspring1[i] = [...parent[0].state[i]];
         }
 
-        // //offspring 1 recombination
-        // let k = cut;
-        // let offspring0 = [...parent[0].state]//this might need to be a for loop that individually copies each sub array over
-        // for (let i = cut; i < parent[1].state.length; i++) {
-        //     let val = parent[1].state[i];
-        //     let skip = false
-        //     //search for value in pre-cut section
-        //     for (let m = 0; m < cut; m++) {
-
-        //         //2d array representation
-        //         if (parent[0].state[m][0] === val[0] &&
-        //             parent[0].state[m][1] === val[1]) {
-        //             skip = true;
-        //             break;
-        //         }
-        //     }
-        //     if (!skip) offspring0[k++] = [...val];
-        // }
-        // console.log("parent[1].state.length",parent[1].state.length);
-        // for (let i = 0; k < parent[1].state.length; i++) {
-        //     let val = parent[1].state[i];
-        //     console.log("val",val);
-        //     console.log("i",i);
-        //     let skip = false
-        //     for (let m = 0; m < cut; m++) {
-
-        //         //2d array representation
-        //         if (parent[0].state[m][0] === val[0] &&
-        //             parent[0].state[m][1] === val[1]) {
-        //             skip = true
-        //             break;
-        //         }
-        //     }
-        //     if (!skip) offspring0[k++] = [...val];
-        // }
-
-        // //offspring 2 recombination
-        // k = cut;
-        // let offspring1 = [...parent[1].state] //this might need to be a for loop that individually copies each sub array over
-        // for (let i = cut; i < parent[0].state.length; i++) {
-        //     let val = parent[0].state[i];
-        //     let skip = false;
-        //     //search for value in pre cut section
-        //     for (let m = 0; m < cut; m++) {
-        //         if (parent[1].state[m][0] === val[0] &&
-        //             parent[1].state[m][1] === val[1]) {
-        //             skip = true;
-        //             break;
-        //         }
-        //     }
-        //     if (!skip) offspring1[k++] = [...val];
-        // }
-        // console.log("parent[0].state.length",parent[0].state.length);
-        // for (let i = 0; k < parent[0].state.length; i++) {
-        //     let val = parent[0].state[i];
-        //     console.log("val",val);
-        //     console.log("i",i);
-        //     let skip = false
-        //     for (let m = 0; m < cut; m++) {
-        //         if (parent[1].state[m][0] === val[0] &&
-        //             parent[1].state[m][1] === val[1]) {
-        //             skip = true
-        //             break;
-        //         }
-        //     }
-        //     if (!skip) offspring1[k++] = [...val];
-        // }
         return [offspring0, offspring1]
     }
 
@@ -520,28 +427,17 @@ class population {
         //randomly swap two values of the permutation/state
         let indexTarget = Math.floor(Math.random() * offspringState.length);
 
-        //let coordinate = [...offspringState[indexTarget]];
-
-        //randomly choose new values for the x and y vectors of coordinate
-        // let x = coordinate[0];
-        // let y = coordinate[1];
-
-        // console.log("entered mutate2DRep()");
-
         let x = offspringState[indexTarget][0];
         let y = offspringState[indexTarget][1];
 
         while (x === offspringState[indexTarget][0]) {
             x = Math.floor(Math.random() * this.n);
-            // console.log("this.size", this.size);
         }
         while (y === offspringState[indexTarget][1]) {
             y = Math.floor(Math.random() * this.n);
         }
 
-        // console.log("Mutation: x,y", x, y);
-
-        //swap values
+        //replace values
         offspringState[indexTarget][0] = x;
         offspringState[indexTarget][1] = y;
 

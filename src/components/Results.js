@@ -17,7 +17,7 @@ const Results = props => {
         <thead>
             <tr>
                 <th>Rank</th>
-                <th>state</th>
+                <th>State</th>
                 <th>Score</th>
             </tr>
         </thead>
