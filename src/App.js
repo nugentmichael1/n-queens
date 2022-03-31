@@ -6,7 +6,7 @@ import { NavBar } from './components/Nav'
 import About from './components/About'
 import Results from './components/Results'
 import { useState } from 'react'
-import { population } from './components/EvolutionaryAlgorithm'
+import { population, candidate2DRep } from './components/EvolutionaryAlgorithm'
 import { Routes, Route, Navigate } from "react-router-dom"
 
 
@@ -51,6 +51,12 @@ function App() {
     const run = () => {
         console.log('run', 'popSize', popSize)
 
+        // let a = new candidate2DRep([[1,1],[1,1],[2,3],[2,4]])
+        // console.log(a.present());
+        // console.log("score",a.score);
+
+        // let debug = new population(2, 4, 100, 100, 0);
+        // setResults(debug.run());
         let experiment = new population(popSize, n, mutationProb, termCond, rep)
         setResults(experiment.run())
     }
