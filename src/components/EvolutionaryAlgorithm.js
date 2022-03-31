@@ -80,11 +80,8 @@ class candidate2DRep {
 
             statePenalty += penalty;
         }
-        // console.log("statePenalty", statePenalty);
 
         this.score = (this.state.length * (this.state.length - 1)) - statePenalty
-
-        // console.log("score",this.score);
     }
 
     sortState() {
@@ -255,13 +252,7 @@ class population {
 
                 //mutation of first offspring
                 if (Math.random() < this.mutationProb) {
-                    //debug
-                    let copy = [...offspring[0]];
-                    // console.log("offspring[0] before mutation", copy);
-                    // console.log("offspring[0].score before mutation", copy.score);
                     offspring[0] = this.mutate2DRep(offspring[0]);
-                    // console.log("offspring[0] after mutation", offspring[0])
-                    // console.log("offspring[0].score after mutation", offspring[0].score)
                 }
 
                 //mutation of second offspring
@@ -282,7 +273,6 @@ class population {
         for (let i = 0; i < this.candidates.length; i++) {
             this.candidates[i].setRank(i)
             this.candidates[i].sortState();
-            // console.log("rank: ", i, "; score: ", this.candidates[i].score)
         }
 
         return this.candidates
@@ -485,10 +475,6 @@ class population {
         //replace values
         offspringState[indexTarget][0] = x;
         offspringState[indexTarget][1] = y;
-
-        let copy2 = [...offspringState];
-        // console.log("indexTarget", indexTarget);
-        // console.log("offspringState at end of mutation2DRep(): ", copy2);
 
         return offspringState;
     }
