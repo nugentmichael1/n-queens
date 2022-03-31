@@ -40,48 +40,51 @@ class candidate2DRep {
 
             //check horizontal
             //left
-            for (let j = x - 1; j >= 0; j--) {
-                if (matrix[j][y] > 0) penalty++;
+            for (let m = x - 1; m >= 0; m--) {
+                if (matrix[m][y] > 0) penalty += 1;
             }
             //right
-            for (let j = x + 1; j < this.state.length; j++) {
-                if (matrix[j][y] > 0) penalty++;
+            for (let m = x + 1; m < this.state.length; m++) {
+                if (matrix[m][y] > 0) penalty += 1;
             }
 
             //check vertical
             //up
-            for (let j = y - 1; j >= 0; j--) {
-                if (matrix[x][j] > 0) penalty++;
+            for (let n = y - 1; n >= 0; n--) {
+                if (matrix[x][n] > 0) penalty += 1;
             }
             //down
-            for (let j = y + 1; j < this.state.length; j++) {
-                if (matrix[x][j] > 0) penalty++;
+            for (let n = y + 1; n < this.state.length; n++) {
+                if (matrix[x][n] > 0) penalty += 1;
             }
 
             //check diagonal up-left to down-right
             //up-left
             for (let m = x - 1, n = y - 1; m >= 0 && n >= 0; m--, n--) {
-                if (matrix[m][n] > 0) penalty++;
+                if (matrix[m][n] > 0) penalty += 1;
             }
             //down-right
             for (let m = x + 1, n = y + 1; m < this.state.length && n < this.state.length; m++, n++) {
-                if (matrix[m][n] > 0) penalty++;
+                if (matrix[m][n] > 0) penalty += 1;
             }
 
             //check diagonal down-left to up-right
             //down-left
             for (let m = x - 1, n = y + 1; m >= 0 && n < this.state.length; m--, n++) {
-                if (matrix[m][n] > 0) penalty++;
+                if (matrix[m][n] > 0) penalty += 1;
             }
             //up-right
             for (let m = x + 1, n = y - 1; m < this.state.length && n >= 0; m++, n--) {
-                if (matrix[m][n] > 0) penalty++;
+                if (matrix[m][n] > 0) penalty += 1;
             }
 
             statePenalty += penalty;
         }
+        // console.log("statePenalty", statePenalty);
 
         this.score = (this.state.length * (this.state.length - 1)) - statePenalty
+
+        // console.log("score",this.score);
     }
 
     sortState() {
@@ -249,9 +252,16 @@ class population {
                 //top two parents are used to create two offspring through recombination
                 let offspring = this.recombination2DRep(parent);
 
+
                 //mutation of first offspring
                 if (Math.random() < this.mutationProb) {
+                    //debug
+                    let copy = [...offspring[0]];
+                    // console.log("offspring[0] before mutation", copy);
+                    // console.log("offspring[0].score before mutation", copy.score);
                     offspring[0] = this.mutate2DRep(offspring[0]);
+                    // console.log("offspring[0] after mutation", offspring[0])
+                    // console.log("offspring[0].score after mutation", offspring[0].score)
                 }
 
                 //mutation of second offspring
@@ -272,6 +282,7 @@ class population {
         for (let i = 0; i < this.candidates.length; i++) {
             this.candidates[i].setRank(i)
             this.candidates[i].sortState();
+            // console.log("rank: ", i, "; score: ", this.candidates[i].score)
         }
 
         return this.candidates
@@ -419,11 +430,21 @@ class population {
         //randomly choose index between 1 and length-2
         let cut = Math.floor(Math.random() * (parent[0].state.length - 1 - 2) + 1)
 
-        let offspring0 = [...parent[0].state];
+        // let offspring0 = [...parent[0].state];
+        let offspring0 = Array(this.n);
+        for (let i = 0; i < this.n; i++) {
+            offspring0[i] = [...parent[0].state[i]]
+        }
+
         for (let i = cut; i < offspring0.length; i++) {
             offspring0[i] = [...parent[1].state[i]];
         }
-        let offspring1 = [...parent[1].state];
+
+        let offspring1 = Array(this.n);
+        for (let i = 0; i < this.n; i++) {
+            offspring1[i] = [...parent[1].state[i]]
+        }
+        // let offspring1 = [...parent[1].state];
         for (let i = cut; i < offspring1.length; i++) {
             offspring1[i] = [...parent[0].state[i]];
         }
@@ -465,6 +486,10 @@ class population {
         offspringState[indexTarget][0] = x;
         offspringState[indexTarget][1] = y;
 
+        let copy2 = [...offspringState];
+        // console.log("indexTarget", indexTarget);
+        // console.log("offspringState at end of mutation2DRep(): ", copy2);
+
         return offspringState;
     }
 
@@ -479,4 +504,4 @@ class population {
     }
 }
 
-export { population }
+export { population, candidate2DRep }
