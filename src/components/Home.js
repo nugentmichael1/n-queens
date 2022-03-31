@@ -12,7 +12,7 @@ const Home = () => {
     <ol>
       <li>Use the <Link to="/options">"Options" page</Link> to set the parameters of the experiment.
       </li>
-      <li>Click run to see the final population set ordered by permutation score.</li>
+      <li>Click run to see the final population set ordered by state score.</li>
       <li>Select a member of the final population set to see what the queen positions look like on a chess board.</li>
       <li>
         Go back to the <Link to="/options">"Options" page</Link> anytime to run another experiment.

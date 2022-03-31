@@ -49,18 +49,18 @@ const Board = ({ size, curCandidate }) => {
         let j = 0;
         //find row number's queen positions
         if (curCandidate) {
-            while (j < size && curCandidate.permutation[j] != i) j++
+            while (j < size && curCandidate.state[j] != i) j++
             console.log("i,j+1", i, j + 1)
         }
 
-        board.push(<BoardRow key={i} label={i} rowNum={i} n={size} queen={curCandidate ? (curCandidate.permutation ? j + 1 : -1) : -1} />)
+        board.push(<BoardRow key={i} label={i} rowNum={i} n={size} queen={curCandidate ? (curCandidate.state ? j + 1 : -1) : -1} />)
     }
     board.push(<XAxisLabels key={size + 2} n={size} />)
 
-    let heading = curCandidate ? <h2>Permutation: {curCandidate.permutation}</h2>: <p>Select a combination from the results section to see its physical representation.</p>
+    let heading = curCandidate ? <h2>state: {curCandidate.state}</h2>: <p>Select a combination from the results section to see its physical representation.</p>
     return <>
         {heading}
-        {/* <h2>Permutation: {curCandidate ? curCandidate.permutation : ""}</h2> */}
+        {/* <h2>state: {curCandidate ? curCandidate.state : ""}</h2> */}
         <table className="board">
             <tbody>
                 {board}

@@ -9,18 +9,7 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
     // let initDescription = { rep }.rep === 0 ? "Normal" : "Smart" Random: ;
     // initDescription += { rep }.rep ? "2D Array, Maximum collsion potential" : "1D Array Permutation, Avoids horizontal and vertical collisions";
 
-    let repStr = {rep}.rep === 0 ? "2D Array" : "Permutation";
-
-    // let arr2D = Array(8);
-
-    // arr2D[4] = [3,1];
-
-    // console.log(arr2D)
-
-    // let arr = [1,2,3,4,5,6,7,8];
-    // console.log(arr);
-    // let arr1 = [arr[0],arr[4]];
-    // console.log(arr1);
+    let repStr = { rep }.rep === 0 ? "2D Array" : "Permutation";
 
     return <>
         {/* <h1>Options</h1> */}

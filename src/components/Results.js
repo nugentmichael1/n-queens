@@ -9,7 +9,6 @@ const Results = props => {
 
     if (props.results) {
         for (let i = 0; i < props.results.length; i++) {
-
         }
     }
 
@@ -18,7 +17,7 @@ const Results = props => {
         <thead>
             <tr>
                 <th>Rank</th>
-                <th>Permutation</th>
+                <th>state</th>
                 <th>Score</th>
             </tr>
         </thead>
@@ -28,7 +27,7 @@ const Results = props => {
                     {candidate.rank + 1}
                 </td>
                 <td>
-                    {candidate.permutation.map(character => (character + " "))}
+                    {candidate.state.map(character => (character + " "))}
                 </td>
                 <td>{candidate.score}</td>
             </tr>))}
@@ -39,7 +38,7 @@ const Results = props => {
 
     let pScore = <p>n * ( n - 1 ) = {+ props.n + " * " + (props.n - 1)} = {maxScore}</p>
 
-    let heading = rTable ? <ul> <li><p>A perfect permutation score indicates a solution.</p></li><li>{pScore}</li> <li><p>The selection of any row will show the respective queen positions on the Board page.</p></li></ul> : <p>Once an experiment is ran, a table of results will appear here.</p>
+    let heading = rTable ? <ul> <li><p>A perfect state score indicates a solution.</p></li><li>{pScore}</li> <li><p>The selection of any row will show the respective queen positions on the Board page.</p></li></ul> : <p>Once an experiment is ran, a table of results will appear here.</p>
 
     return <>
         {/* <h1>Results</h1> */}
@@ -52,7 +51,7 @@ export default Results;
 
 
 /*
-useNavigate to redirect to the board on result permutation selection.
+useNavigate to redirect to the board on result state selection.
 
 -----
 import {useNavigate} from "react-router-dom"
