@@ -5,6 +5,7 @@ import Options from './components/Options'
 import { NavBar } from './components/Nav'
 import About from './components/About'
 import Results from './components/Results'
+import Insights from './components/Insights'
 import { useState } from 'react'
 import { population, candidate2DRep } from './components/EvolutionaryAlgorithm'
 import { Routes, Route, Navigate } from "react-router-dom"
@@ -48,6 +49,8 @@ function App() {
         setPopSize(popSize)
     }
 
+    const [avgPerIteration, setAvgPerIteration] = useState([])
+
     const run = () => {
         console.log('run', 'popSize', popSize)
 
@@ -57,8 +60,13 @@ function App() {
 
         // let debug = new population(2, 4, 100, 100, 0);
         // setResults(debug.run());
+
         let experiment = new population(popSize, n, mutationProb, termCond, rep)
         setResults(experiment.run())
+
+        //experiment to observe average score per iteration
+        // setAvgPerIteration(experiment.getIterationAvg())
+        // console.log(avgPerIteration);
     }
 
     const resetResults = () => {
@@ -75,9 +83,10 @@ function App() {
             <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} rep={rep} setRep={setRep} termCond={termCond} setTermCond={setTermCond} resetResults={resetResults}/>} />
+                <Route path="/options" element={<Options n={n} updateN={updateN} run={run} popSize={popSize} updatePopSize={updatePopSize} mutationProb={mutationProb} setMutationProb={setMutationProb} rep={rep} setRep={setRep} termCond={termCond} setTermCond={setTermCond} resetResults={resetResults} />} />
                 <Route path="/board" element={<Board size={n} curCandidate={curCandidate} />} />
                 <Route path="/results" element={<Results results={results} n={n} setCurCandidate={setCurCandidate} />} />
+                <Route path="/insights" element={<Insights />} />
             </Routes>
         </>
     );

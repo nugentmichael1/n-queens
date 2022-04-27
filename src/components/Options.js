@@ -7,9 +7,9 @@ const Options = ({ n, updateN, run, popSize, updatePopSize, mutationProb, setMut
 
     //descriptions
     // let initDescription = { rep }.rep === 0 ? "Normal" : "Smart" Random: ;
-    // initDescription += { rep }.rep ? "2D Array, Maximum collsion potential" : "1D Array Permutation, Avoids horizontal and vertical collisions";
+    // initDescription += { rep }.rep ? "Coordinates, Maximum collsion potential" : "1D Array Permutation, Avoids horizontal and vertical collisions";
 
-    let repStr = { rep }.rep === 0 ? "2D Array" : "Permutation";
+    let repStr = { rep }.rep === 0 ? "Coordinates" : "Permutation";
 
     let description = <p>The adjustment of any parameter will erase the results a previously ran experiment.</p>
 

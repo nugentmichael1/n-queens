@@ -130,7 +130,7 @@ nav a{
 }
 
 h1, h2{
-  padding: 2vh 5vw;
+  padding: 2vh 5vw 0;
 }
 
 h3{
@@ -141,7 +141,7 @@ p{
   /* margin: 5vh 5vw; */
   padding: 0 5vw;
   width: 75%;
-  margin: 2vh auto;
+  margin: 1vh auto 2vh;
 }
 
 img#homeQueen{
@@ -167,7 +167,7 @@ a{
   color: black;
 }
 
-a.fs:hover{
+a.about:hover{
   color: var(--CSUF-Red);
   background-color: var(--CSUF-Blue);
 }

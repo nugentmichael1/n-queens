@@ -161,6 +161,7 @@ class candidate {
 }
 
 class population {
+    iterationAvg = []
     constructor(size, n, mutationProb, iterations, rep) {
         this.size = size //population size
         this.n = n //number of queens
@@ -170,6 +171,24 @@ class population {
         this.iterations = iterations;
         this.rep = rep;
     }
+
+    // averageScore() {
+
+    //     console.log("Inside averageScore()");
+    //     let total = 0;
+
+    //     for (let i = 0; i < this.size; i++) {
+    //         //sum up all the scores of the population
+    //         total += this.candidates[i].score;
+    //     }
+
+    //     //divide sum by population size, and push into array
+    //     this.iterationAvg.push(total / this.size);
+    // }
+
+    // getIterationAvg() {
+    //     return this.iterationAvg;
+    // }
 
     //main function for class.  determines which functions to call based on representation.
     run() {
@@ -220,6 +239,9 @@ class population {
 
             //reduces ranked population by half for next iteration
             this.survivorSelection(newPop);
+
+            // //keeps track of the average fitness score per iteration
+            // this.averageScore();
         }
 
         //set ranks.  helps react assign keys to table rows in results.
@@ -267,6 +289,9 @@ class population {
 
             //reduces ranked population by half for next iteration
             this.survivorSelection(newPop);
+
+            // //keeps track of the average fitness score per iteration
+            // this.averageScore();
         }
 
         //set ranks.  helps react assign keys to table rows in results.

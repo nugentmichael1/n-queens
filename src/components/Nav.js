@@ -16,6 +16,7 @@ const NavBar = (test) => {
                 <NavLink page='options' selected={page === 'options'} />
                 <NavLink page='results' selected={page ==='results'} />
                 <NavLink page='board' selected={page==='board'}/>
+                <NavLink page='insights' selected={page==='insights'}/>
                 <NavLink page='about' selected={page === 'about'} />
             </ul>
         </nav>
