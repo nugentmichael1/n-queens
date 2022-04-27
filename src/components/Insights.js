@@ -20,7 +20,7 @@ export default class Insights extends Component {
                 <h2>Permutation</h2>
                 <p>On the other hand, a single string of unique digits will exclude all horizontal or vertial collisions from the search space.  Each cell is associated with a column of the chess board, and because only one number can be in a cell, only one queen will be in a vertical column.  Likewise, since each number represents a horizontal row, so long as no number is duplicated, each queen will have its own row.  This reduces the search space to nPr = n!/(n-r)!, which is only n! since r=n, and 0!=1.  In an n=8 problem, that is only 40,320 states to search.</p> 
                 <h2>Conclusion</h2>
-                <p>With 92 possible solutions in the n=8 puzzle, the likelihood of a random guess from a coordinate representation has a 0.0000021% chance of success, where as the permutation representation has a 0.23% chance.  Even without employment of the evolutionary algorithm, the problem specific method of representation has increased probability from something near impossible to something merely difficult.</p>
+                <p>With 92 possible solutions in the n=8 puzzle, the likelihood of a successful random guess from a coordinate representation has a 0.0000021% chance, whereas the permutation representation has a 0.23% chance.  Even without employment of the evolutionary algorithm, the problem specific method of representation has increased the probability from something near impossible to something merely difficult.</p>
             </div>
         )
     }
