@@ -23,7 +23,11 @@ const Results = props => {
             </tr>
         </thead>
         <tbody>
-            {props.results.map((candidate) => (<tr key={candidate.rank} className={(candidate.score / maxScore === 1) ? "solution": "notSolution"} onClick={() => (props.setCurCandidate(candidate), navigate("/board"))}>
+            {props.results.map((candidate) => (<tr key={candidate.rank} className={(candidate.score / maxScore === 1) ? "solution" : "notSolution"} onClick={() => {
+                props.setCurCandidate(candidate)
+                navigate("/board")
+            }
+            }>
                 <td>
                     {candidate.rank + 1}
                 </td>
@@ -35,7 +39,7 @@ const Results = props => {
                 <td>{(candidate.score / maxScore * 100).toFixed(2)} %</td>
             </tr>))}
         </tbody>
-    </table>
+    </table >
         : undefined
 
 

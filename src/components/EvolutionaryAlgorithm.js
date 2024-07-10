@@ -515,4 +515,4 @@ class population {
     }
 }
 
-export { population, candidate2DRep }
+export { population }

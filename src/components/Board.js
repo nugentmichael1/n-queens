@@ -34,7 +34,8 @@ const BoardRowPerm = ({ label, rowNum, n, queen }) => {
 
         var id = String.fromCharCode(i + 65) + '-' + rowNum;
 
-        if (queen == i + 1) {
+        //check here if any bugs
+        if (queen === i + 1) {
             classNames += " selected";
         }
 

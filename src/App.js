@@ -7,7 +7,7 @@ import About from './components/About'
 import Results from './components/Results'
 import Insights from './components/Insights'
 import { useState } from 'react'
-import { population, candidate2DRep } from './components/EvolutionaryAlgorithm'
+import { population } from './components/EvolutionaryAlgorithm'
 import { Routes, Route, Navigate } from "react-router-dom"
 
 
@@ -49,7 +49,7 @@ function App() {
         setPopSize(popSize)
     }
 
-    const [avgPerIteration, setAvgPerIteration] = useState([])
+    // const [avgPerIteration, setAvgPerIteration] = useState([])
 
     const run = () => {
         console.log('run', 'popSize', popSize)
